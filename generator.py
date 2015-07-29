@@ -9,7 +9,10 @@ import csv
 
 class Generator:
     def __init__(self, path='/Users/wilelb/test'):
-        self.path=path
+        self.path = path
+        #print("Generator settings:")
+        #print("\tpath=%s" % self.path)
+        #print("")
 
     def list_files(self):
         p = re.compile('(.+)\.(.+)-(.+)-(.+)\.csv')
@@ -59,9 +62,10 @@ class Generator:
         stats = {
             'num': 0,
             'volume': 0,
-            'smallest': 0,
-            'largest': 0,
-            'lowest_price': 0,
+            'volume_usd': 0,
+            #'smallest': 999999999,
+            #'largest': 0,
+            'lowest_price': 999999999,
             'highest_price': 0,
             'buys': 0,
             'sells': 0
@@ -76,15 +80,20 @@ class Generator:
                 price = float(row[5])
 
                 stats['num'] += 1
+                stats['volume'] += amount
+                stats['volume_usd'] += amount*price
+
                 if type == 'buy':
                     stats['buys'] += 1
                 elif type == 'sell':
                     stats['sells'] += 1
-                stats['volume'] += amount
+
+                '''
                 if amount < stats['smallest']:
                     stats['smallest'] = amount
                 elif amount > stats['largest']:
                     stats['largest'] = amount
+                '''
                 if price < stats['lowest_price']:
                     stats['lowest_price'] = price
                 elif price > stats['highest_price']:
